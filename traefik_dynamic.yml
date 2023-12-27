@@ -1,0 +1,22 @@
+http:
+  routers:
+    dashboard:
+      rule: Host(`monitor.lishixin.net`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      tls:
+        domains:
+          - main: "monitor.lishixin.net"
+      service: api@internal
+      middlewares:
+        - auth
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "admin:$apr1$zIXF7f.s$xZRa62kl7.swqgOtB9Zg5."
+
+tls:
+  certificates:
+    - certFile: /cert/tunnels.app.lishixin.net.pem
+      keyFile:  /cert/tunnels.app.lishixin.net.key
+    - certFile: /cert/lishixin.net.pem
+      keyFile:  /cert/lishixin.net.key
